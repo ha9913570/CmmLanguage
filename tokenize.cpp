@@ -5,8 +5,18 @@
 
 // 文字が記号かどうかを判定し、記号ならTrueを返す関数
 bool isSymbol(char c) {
-	std::string symbols = "+-*/=^(){}<>";
+	std::string symbols = "+-*/=^(){}<>\"'\n";
 	if(symbols.find(c) == std::string::npos) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+// 文字が数字かどうかを判定し、数字ならTrueを返す関数
+bool isNumber(char c) {
+	std::string numbers = "0123456789";
+	if(numbers.find(c) == std::string::npos) {
 		return false;
 	} else {
 		return true;
@@ -20,7 +30,7 @@ std::vector<std::string> tokenize(std::string s) {
 		std::string token = "";
 
 		// スペース、タブ、改行など
-		if(s[i] == ' ' || s[i] == '\t' || s[i] == '\n' || s[i] == '\r') {
+		if(s[i] == ' ' || s[i] == '\t' || s[i] == '\r') {
 			i++;
 			continue;
 		}
@@ -34,11 +44,16 @@ std::vector<std::string> tokenize(std::string s) {
 				token += s[i];
 				i++;
 			} while(isSymbol(s[i]) && s[i] != '\0');
+		} else if(isNumber(s[i])) {
+			do {
+				token += s[i];
+				i++;
+			} while(isNumber(s[i]) && s[i] != '\0');
 		} else {
 			do {
 				token += s[i];
 				i++;
-			} while(!isSymbol(s[i]) && s[i] != '\0');
+			} while(!isSymbol(s[i]) && !isNumber(s[i]) && s[i] != '\0');
 		}
 
 		tokens.push_back(token);
