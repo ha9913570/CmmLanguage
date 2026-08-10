@@ -23,6 +23,16 @@ bool isNumber(char c) {
 	}
 }
 
+// 文字がスペース類かどうかを判定し、スペースならTrueを返す関数
+bool isSpace(char c) {
+	std::string spaces = " \t\r";
+	if(spaces.find(c) == std::string::npos) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 // 与えられた文字列をトークン列に変換する関数
 std::vector<std::string> tokenize(std::string s) {
 	std::vector<std::string> tokens;
@@ -30,7 +40,7 @@ std::vector<std::string> tokenize(std::string s) {
 		std::string token = "";
 
 		// スペース、タブ、改行など
-		if(s[i] == ' ' || s[i] == '\t' || s[i] == '\r') {
+		if(isSpace(s[i])) {
 			i++;
 			continue;
 		}
@@ -43,20 +53,21 @@ std::vector<std::string> tokenize(std::string s) {
 			do {
 				token += s[i];
 				i++;
-			} while(isSymbol(s[i]) && s[i] != '\0');
+			} while(isSymbol(s[i]) && !isSpace(s[i]) && s[i] != '\0');
 		} else if(isNumber(s[i])) {
 			do {
 				token += s[i];
 				i++;
-			} while(isNumber(s[i]) && s[i] != '\0');
+			} while(isNumber(s[i]) && !isSpace(s[i]) && s[i] != '\0');
 		} else {
 			do {
 				token += s[i];
 				i++;
-			} while(!isSymbol(s[i]) && !isNumber(s[i]) && s[i] != '\0');
+			} while(!isSymbol(s[i]) && !isNumber(s[i]) && !isSpace(s[i]) && s[i] != '\0');
 		}
 
 		tokens.push_back(token);
 	}
+	tokens.push_back("\n");
 	return tokens;
 }
