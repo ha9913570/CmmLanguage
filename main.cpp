@@ -6,16 +6,23 @@
 #include "tokenize.hpp"
 
 int main(void) {
-	std::string str = "print(\"Hello World!\")\na = 20\nb=19\nr=a+b\nprint(r)";
+	std::string str = "print(\"Hello World!\")\na = 20\nb=19\nc=a+b\nd=a-b\nprint(c)\nprint(d)";
 	std::vector<std::string> tokens = tokenize(str);
 
 	std::map<std::string, std::string> vars; // 変数
 
 	for(int i = 0; i < tokens.size(); i++) {
+		// 変数の代入
 		if(tokens[i] == "=") {
 			std::string value = tokens[i + 1];
 			for(int j = i + 2; tokens[j] != "\n"; j++) {
 				value += tokens[j];
+			}
+			// +や-が入っていたら計算する
+			if(value.find("+") != std::string::npos) {
+				value = std::to_string(std::stoi(vars[tokens[i + 1]]) + std::stoi(vars[tokens[i + 3]]));
+			} else if(value.find("-") != std::string::npos) {
+				value = std::to_string(std::stoi(vars[tokens[i + 1]]) - std::stoi(vars[tokens[i + 3]]));
 			}
 			vars[tokens[i - 1]] = value;
 		} else if(tokens[i] == "print") {
