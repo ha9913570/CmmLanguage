@@ -40,6 +40,7 @@ std::vector<Token> tokenize(std::string s) {
 	for(int i = 0; i < s.size();) {
 		Token token;
 		std::string value = "";
+		std::string type = "string";
 
 		// スペース、タブ、改行など
 		if(isSpace(s[i])) {
@@ -50,13 +51,18 @@ std::vector<Token> tokenize(std::string s) {
 		if(s[i] == '\0') {
 			break;
 		}
-		// 記号
-		if(isSymbol(s[i])) {
+		if(s[i] == '\n') {
+			type = "end";
+			value += s[i];
+			i++;
+		} else if(isSymbol(s[i])) {
+			type = "symbol";
 			do {
 				value += s[i];
 				i++;
 			} while(value.find(s[i]) != std::string::npos);
 		} else if(isNumber(s[i])) {
+			type = "int";
 			do {
 				value += s[i];
 				i++;
@@ -68,12 +74,12 @@ std::vector<Token> tokenize(std::string s) {
 			} while(!isSymbol(s[i]) && !isNumber(s[i]) && !isSpace(s[i]) && s[i] != '\0');
 		}
 
-		token.createToken("string", value);
+		token.createToken(type, value);
 		tokens.push_back(token);
 	}
 
 	Token tempToken;
-	tempToken.createToken("string", "\n");
+	tempToken.createToken("end", "\n");
 	tokens.push_back(tempToken);
 	return tokens;
 }

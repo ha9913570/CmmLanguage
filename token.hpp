@@ -12,6 +12,14 @@ class Token {
 			tokenType = type;
 			token = value;
 		}
+
+		std::string toString() {
+			if(token == "\n") {
+				return tokenType + " : \\n\n"; 
+			} else {
+				return tokenType + " : " + token + "\n";
+			}
+		}
 };
 
 #endif // TOKEN

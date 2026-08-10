@@ -47,7 +47,7 @@ int main(void) {
 
 	std::cout << "処理前\n" << str << std::endl << "処理後" << std::endl;
 	for(int i = 0; i < tokens.size(); i++) {
-		std::cout << tokens[i].token << ", ";
+		std::cout << tokens[i].toString();
 	}
 	std::cout << std::endl;
 
