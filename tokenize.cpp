@@ -53,12 +53,12 @@ std::vector<std::string> tokenize(std::string s) {
 			do {
 				token += s[i];
 				i++;
-			} while(isSymbol(s[i]) && !isSpace(s[i]) && s[i] != '\0');
+			} while(token.find(s[i]) != std::string::npos);
 		} else if(isNumber(s[i])) {
 			do {
 				token += s[i];
 				i++;
-			} while(isNumber(s[i]) && !isSpace(s[i]) && s[i] != '\0');
+			} while(isNumber(s[i]));
 		} else {
 			do {
 				token += s[i];
