@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 
+#include "token.hpp"
 #include "tokenize.hpp"
 
 // 文字が記号かどうかを判定し、記号ならTrueを返す関数
@@ -34,10 +35,11 @@ bool isSpace(char c) {
 }
 
 // 与えられた文字列をトークン列に変換する関数
-std::vector<std::string> tokenize(std::string s) {
-	std::vector<std::string> tokens;
+std::vector<Token> tokenize(std::string s) {
+	std::vector<Token> tokens;
 	for(int i = 0; i < s.size();) {
-		std::string token = "";
+		Token token;
+		std::string value = "";
 
 		// スペース、タブ、改行など
 		if(isSpace(s[i])) {
@@ -51,23 +53,27 @@ std::vector<std::string> tokenize(std::string s) {
 		// 記号
 		if(isSymbol(s[i])) {
 			do {
-				token += s[i];
+				value += s[i];
 				i++;
-			} while(token.find(s[i]) != std::string::npos);
+			} while(value.find(s[i]) != std::string::npos);
 		} else if(isNumber(s[i])) {
 			do {
-				token += s[i];
+				value += s[i];
 				i++;
 			} while(isNumber(s[i]));
 		} else {
 			do {
-				token += s[i];
+				value += s[i];
 				i++;
 			} while(!isSymbol(s[i]) && !isNumber(s[i]) && !isSpace(s[i]) && s[i] != '\0');
 		}
 
+		token.createToken("string", value);
 		tokens.push_back(token);
 	}
-	tokens.push_back("\n");
+
+	Token tempToken;
+	tempToken.createToken("string", "\n");
+	tokens.push_back(tempToken);
 	return tokens;
 }
