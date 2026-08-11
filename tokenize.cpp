@@ -50,7 +50,7 @@ std::vector<Token> tokenize(std::string s) {
 		// ファイルの終端
 		if(s[i] == '\0') {
 			break;
-		}
+		} 
 		if(s[i] == '\n') {
 			type = "end";
 			value += s[i];
@@ -78,8 +78,9 @@ std::vector<Token> tokenize(std::string s) {
 		tokens.push_back(token);
 	}
 
-	Token tempToken;
-	tempToken.createToken("end", "\n");
-	tokens.push_back(tempToken);
+	Token eofToken;
+	eofToken.createToken("eof", "\0");
+	tokens.push_back(eofToken);
+
 	return tokens;
 }
