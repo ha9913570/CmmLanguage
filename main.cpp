@@ -5,12 +5,17 @@
 
 #include "token.hpp"
 #include "tokenize.hpp"
+#include "parser.hpp"
 
 int main(void) {
-	std::string str = "print(\"Hello World!\")\na = 20\nb=19\nc=a+b\nd=a-b\nprint(c)\nprint(d)";
+	std::string str = "print(\"Hello World!\")\nint a = 20\nint b=19\nint c=a+b\nint d=a-b\nprint(c)\nprint(d)";
 	std::vector<Token> tokens = tokenize(str);
 
 	std::map<std::string, std::string> vars; // 変数
+
+	Parser parser;
+
+	parser.parseProgram(str);
 
 	for(int i = 0; i < tokens.size(); i++) {
 		// 変数の代入
@@ -38,6 +43,7 @@ int main(void) {
 		}
 	}
 
+	/*
 	std::cout << "\n==デバッグ用==" << std::endl;
 
 	std::cout << "変数" << std::endl;
@@ -50,6 +56,7 @@ int main(void) {
 		std::cout << tokens[i].toString();
 	}
 	std::cout << std::endl;
+	*/
 
 	return 0;
 }

@@ -6,7 +6,7 @@
 
 // 文字が記号かどうかを判定し、記号ならTrueを返す関数
 bool isSymbol(char c) {
-	std::string symbols = "+-*/=^(){}<>\"'\n";
+	std::string symbols = "+-*/=^(){}<>\"'\n,";
 	if(symbols.find(c) == std::string::npos) {
 		return false;
 	} else {
