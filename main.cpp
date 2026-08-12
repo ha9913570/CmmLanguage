@@ -15,7 +15,8 @@ int main(void) {
 
 	Parser parser;
 
-	parser.parseProgram(str);
+	Node ast = parser.parseProgram(str);
+	ast.printNode();
 
 	for(int i = 0; i < tokens.size(); i++) {
 		// 変数の代入

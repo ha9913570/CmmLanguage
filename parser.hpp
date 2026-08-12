@@ -23,7 +23,7 @@ class Parser {
 		}
 	public:
 		// プログラム全体をパースする関数
-		void parseProgram(std::string program) {
+		Node parseProgram(std::string program) {
 			std::vector<std::string> sentences;
 			std::string temp = "";
 			for(int i = 0; i < program.size(); i++) {
@@ -37,11 +37,12 @@ class Parser {
 			sentences.push_back(temp);
 
 			rootNode.value = "root";
+			rootNode.type = "program";
 			for(int i = 0; i < sentences.size(); i++) {
 				rootNode.node.push_back(parseSentence(sentences[i]));
 			}
 
-			rootNode.printNode();
+			return rootNode;
 		}
 
 		// プログラム中の1文をパースする関数
@@ -51,8 +52,10 @@ class Parser {
 			std::vector<Token> tokens = tokenize(sentence);
 			if(isVarDeclaration(tokens[0].token)) {
 				sentenceNode = parseVarDeclaration(tokens);
+				sentenceNode.type = "var";
 			} else {
 				sentenceNode = parseCallSentence(tokens);
+				sentenceNode.type = "call";
 			}
 
 			sentenceNode.value = sentence;
@@ -67,12 +70,9 @@ class Parser {
 			}
 
 			Node mainNode;
-			Node typeNode;
-			typeNode.value = tokens[0].token;
-			Node nameNode;
-			nameNode.value = tokens[1].token;
-			Node valueNode;
-			valueNode.value = value;
+			Node typeNode("varType", tokens[0].token);
+			Node nameNode("varName", tokens[1].token);
+			Node valueNode("varValue", value);
 
 			mainNode.node.push_back(typeNode);
 			mainNode.node.push_back(nameNode);
@@ -86,7 +86,7 @@ class Parser {
 			std::vector<Node> argNodes;
 
 			std::string argValue = "";
-			Node tempNode;
+			Node tempNode("arg", "");
 			for(int i = 2; tokens[i].token != ")"; i++) {
 				if(tokens[i].token == ",") {
 					tempNode.value = argValue;
@@ -100,12 +100,9 @@ class Parser {
 			argNodes.push_back(tempNode);
 
 			Node mainNode;
-			Node callNode;
-			callNode.value = tokens[0].token;
-			Node startNode;
-			startNode.value = tokens[1].token;
-			Node endNode;
-			endNode.value = tokens[tokens.size() - 2].token;
+			Node callNode("function", tokens[0].token);
+			Node startNode("startArg", tokens[1].token);
+			Node endNode("endArg", tokens[tokens.size() - 2].token);
 
 			mainNode.node.push_back(callNode);
 			mainNode.node.push_back(startNode);
