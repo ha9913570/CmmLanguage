@@ -6,6 +6,7 @@
 #include "token.hpp"
 #include "tokenize.hpp"
 #include "parser.hpp"
+#include "evaluation.hpp"
 
 int main(void) {
 	std::string str = "print(\"Hello World!\")\nint a = 20\nint b=19\nint c=a+b\nint d=a-b\nprint(c)\nprint(d)";
@@ -14,28 +15,12 @@ int main(void) {
 	std::map<std::string, std::string> vars; // 変数
 
 	Parser parser;
+	Evaluation evaluation;
 
 	Node ast = parser.parseProgram(str);
-	ast.printNode();
+	//ast.printNode();
 
-	for(int i = 0; i < tokens.size(); i++) {
-		// 変数の代入
-		if(tokens[i].token == "=") {
-			std::string value = tokens[i + 1].token;
-			for(int j = i + 2; tokens[j].token != "\n"; j++) {
-				value += tokens[j].token;
-			}
-			// +や-が入っていたら計算する
-			if(value.find("+") != std::string::npos) {
-				value = std::to_string(std::stoi(vars[tokens[i + 1].token]) + std::stoi(vars[tokens[i + 3].token]));
-			} else if(value.find("-") != std::string::npos) {
-				value = std::to_string(std::stoi(vars[tokens[i + 1].token]) - std::stoi(vars[tokens[i + 3].token]));
-			}
-			vars[tokens[i - 1].token] = value;
-		} else if(tokens[i].token == "print") {
-			std::cout << tokens[i + 2].token << std::endl;
-		}
-	}
+	evaluation.evaluation(ast);
 
 	return 0;
 }
