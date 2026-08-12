@@ -9,7 +9,7 @@
 #include "evaluation.hpp"
 
 int main(void) {
-	std::string str = "print(\"Hello World!\")\nint a = 20\nint b=19\nint c=a+b\nint d=a-b\nprint(c)\nprint(d)";
+	std::string str = "print(\"Hello World!\")\nint a = 20\nint b=19\nint c=a+b\nint d=(a-b)*2\nprint(c)\nprint(d)";
 	std::vector<Token> tokens = tokenize(str);
 
 	std::map<std::string, std::string> vars; // 変数

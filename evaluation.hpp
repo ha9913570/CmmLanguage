@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#include "tokenize.hpp"
+#include "token.hpp"
 #include "var.hpp"
 #include "Node.hpp"
 #include "function.hpp"
@@ -36,8 +38,42 @@ class Evaluation {
 		}
 		// 変数の評価
 		void evaluationVar(Node node) {
-			Var var(node.node[0].value, node.node[1].value, node.node[2].value);
+			std::string value = calcExpression(node.node[2].value);
+			Var var(node.node[0].value, node.node[1].value, value);
 			vars.push_back(var);
+		}
+		// 数式を計算し、その値を返す関数
+		std::string calcExpression(std::string ex) {
+			// 演算子があるかどうかによって数式かどうかを判定する
+			std::vector<Token> tokens = tokenize(ex);
+			bool isExpression = false;
+			std::string op = "+-*/^";
+			for(int i = 0; i < tokens.size() - 1; i++) {
+				if(op.find(tokens[i].token) != std::string::npos) {
+					isExpression = true;
+					break;
+				}
+			}
+
+			// 数式じゃないならそのままの値を、数式ならば計算して返す
+			if(!isExpression) {
+				return ex;
+			} else {
+				// 変数を代入
+				for(int i = 0; i < tokens.size() - 1; i++) {
+					for(int j = 0; j < vars.size(); j++) {
+						if(tokens[i].token == vars[j].name) {
+							tokens[i].token = vars[j].value;
+						}
+					}
+				}
+
+				std::string result = "";
+				for(int i = 0; i < tokens.size() - 1; i++) {
+					result += tokens[i].token;
+				}
+				return result;
+			}
 		}
 };
 
