@@ -1,12 +1,13 @@
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "token.hpp"
 #include "tokenize.hpp"
 
 // 文字が記号かどうかを判定し、記号ならTrueを返す関数
 bool isSymbol(char c) {
-	std::string symbols = "+-*/=^(){}<>\"'\n,";
+	std::string symbols = "+-*/=^(){}<>'\n,";
 	if(symbols.find(c) == std::string::npos) {
 		return false;
 	} else {
@@ -51,6 +52,7 @@ std::vector<Token> tokenize(std::string s) {
 		if(s[i] == '\0') {
 			break;
 		} 
+
 		if(s[i] == '\n') {
 			type = "end";
 			value += s[i];
@@ -67,6 +69,15 @@ std::vector<Token> tokenize(std::string s) {
 				value += s[i];
 				i++;
 			} while(isNumber(s[i]));
+		} else if(s[i] == '"') {
+			do {
+				i++;
+				value += s[i];
+				if(s[i + 1] == '"') {
+					i += 2;
+					break;
+				}
+			} while(1);
 		} else {
 			do {
 				value += s[i];

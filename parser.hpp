@@ -83,8 +83,8 @@ class Parser {
 		
 		// 関数呼び出しの文をパースする関数
 		Node parseCallSentence(std::vector<Token> tokens) {
+			// 引数ノードを作成
 			std::vector<Node> argNodes;
-
 			std::string argValue = "";
 			Node tempNode("arg", "");
 			for(int i = 2; tokens[i].token != ")"; i++) {

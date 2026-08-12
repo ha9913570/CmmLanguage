@@ -33,31 +33,9 @@ int main(void) {
 			}
 			vars[tokens[i - 1].token] = value;
 		} else if(tokens[i].token == "print") {
-			if(tokens[i + 2].token == "\"") {
-				for(int j = i + 3; tokens[j].token != "\""; j++) {
-					std::cout << tokens[j].token << " ";
-				}
-				std::cout << std::endl;
-			} else {
-				std::cout << vars[tokens[i + 2].token] << std::endl;
-			}
+			std::cout << tokens[i + 2].token << std::endl;
 		}
 	}
-
-	/*
-	std::cout << "\n==デバッグ用==" << std::endl;
-
-	std::cout << "変数" << std::endl;
-	for(const auto& pair : vars) {
-		std::cout << pair.first << ":" << pair.second << std::endl;
-	}
-
-	std::cout << "処理前\n" << str << std::endl << "処理後" << std::endl;
-	for(int i = 0; i < tokens.size(); i++) {
-		std::cout << tokens[i].toString();
-	}
-	std::cout << std::endl;
-	*/
 
 	return 0;
 }
