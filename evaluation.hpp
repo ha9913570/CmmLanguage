@@ -109,7 +109,51 @@ class Evaluation {
 				for(int i = 0; i < resultArr.size(); i++) {
 					result += resultArr[i] + " ";
 				}
-				return result;
+
+				// 逆ポーランド記法を計算する
+				std::stack<int> numStack;
+				for(int i = 0; i < resultArr.size(); i++) {
+					try{
+						numStack.push(stoi(resultArr[i]));
+					} catch(const std::invalid_argument& e) {
+						if(resultArr[i] == "+") {
+							int b = numStack.top();
+							numStack.pop();
+							int a = numStack.top();
+							numStack.pop();
+							numStack.push(a + b);
+						} else if(resultArr[i] == "-") {
+							int b = numStack.top();
+							numStack.pop();
+							int a = numStack.top();
+							numStack.pop();
+							numStack.push(a - b);
+						} else if(resultArr[i] == "*") {
+							int b = numStack.top();
+							numStack.pop();
+							int a = numStack.top();
+							numStack.pop();
+							numStack.push(a * b);
+						} else if(resultArr[i] == "/") {
+							int b = numStack.top();
+							numStack.pop();
+							int a = numStack.top();
+							numStack.pop();
+							numStack.push(a / b);
+						} else if(resultArr[i] == "^") {
+							int b = numStack.top();
+							numStack.pop();
+							int a = numStack.top();
+							numStack.pop();
+							int temp = 1;
+							for(int j = 0; j < b; j++) {
+								temp *= a;
+							}
+							numStack.push(temp);
+						}
+					}
+				}
+				return std::to_string(numStack.top());
 			}
 		}
 };
