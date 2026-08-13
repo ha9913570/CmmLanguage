@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <map>
@@ -8,19 +9,40 @@
 #include "parser.hpp"
 #include "evaluation.hpp"
 
-int main(void) {
-	std::string str = "print(\"Hello World!\")\nint a = 20\nint b=19\nint c=a+b-2\nint d=(1+2)^2*3\nprint(c)\nprint(d)";
-	std::vector<Token> tokens = tokenize(str);
+int main(int argc, char* argv[]) {
+	if(argc != 2) {
+		std::cerr << "実行するファイルを指定してください" << std::endl;
+		return 0;
+	}
 
-	std::map<std::string, std::string> vars; // 変数
+	std::string filePath = argv[1];
+	std::ifstream file(filePath);
+
+	if(!file) {
+		std::cerr << "ファイルを開けませんでした" << std::endl;
+		return 0;
+	}
+
+	std::string str = "";
+	std::string line;
+	while(std::getline(file, line)) {
+		str += line + "\n";
+	}
+
+	// 末尾の不要な改行を削除
+	while(str[str.size() - 1] == '\n') {
+		str.pop_back();
+	}
+
+	std::string str2 = "print(\"Hello World!\")\nint a = 20\nint b=19\nint c=a+b-2\nint d=(1+2)^2*3\nprint(c)\nprint(d)";
 
 	Parser parser;
 	Evaluation evaluation;
 
 	Node ast = parser.parseProgram(str);
-	//ast.printNode();
 
 	evaluation.evaluation(ast);
 
+	file.close();
 	return 0;
 }
