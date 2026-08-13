@@ -23,6 +23,7 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
+	// ファイル読み込み
 	std::string str = "";
 	std::string line;
 	while(std::getline(file, line)) {
@@ -33,8 +34,6 @@ int main(int argc, char* argv[]) {
 	while(str[str.size() - 1] == '\n') {
 		str.pop_back();
 	}
-
-	std::string str2 = "print(\"Hello World!\")\nint a = 20\nint b=19\nint c=a+b-2\nint d=(1+2)^2*3\nprint(c)\nprint(d)";
 
 	Parser parser;
 	Evaluation evaluation;
