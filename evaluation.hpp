@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <stack>
 
 #include "tokenize.hpp"
 #include "token.hpp"
@@ -68,9 +69,45 @@ class Evaluation {
 					}
 				}
 
+				// 中置記法を逆ポーランド記法に変換する
 				std::string result = "";
+				std::vector<std::string> resultArr;
+				std::stack<std::string> opStack;
 				for(int i = 0; i < tokens.size() - 1; i++) {
-					result += tokens[i].token;
+					if(tokens[i].tokenType != "symbol") {
+						resultArr.push_back(tokens[i].token);
+					} else {
+						if(tokens[i].token == "(") {
+							opStack.push(tokens[i].token);
+						} else if(tokens[i].token == ")") {
+							while(opStack.size() != 0 && opStack.top() != "(") {
+								resultArr.push_back(opStack.top());
+								opStack.pop();
+							}
+							opStack.pop();
+						} else if(tokens[i].token == "^") {
+							opStack.push(tokens[i].token);
+						} else if(tokens[i].token == "*" || tokens[i].token == "/") {
+							while(opStack.size() != 0 && opStack.top() != "(" && (opStack.top() == "^" || opStack.top() == "*" || opStack.top() == "/")) {
+								resultArr.push_back(opStack.top());
+								opStack.pop();
+							}
+							opStack.push(tokens[i].token);
+						} else if(tokens[i].token == "+" || tokens[i].token == "-") {
+							while(opStack.size() != 0 && opStack.top() != "(") {
+								resultArr.push_back(opStack.top());
+								opStack.pop();
+							}
+							opStack.push(tokens[i].token);
+						}
+					}
+				}
+				for(int i = 0; i < opStack.size(); i++) {
+					resultArr.push_back(opStack.top());
+					opStack.pop();
+				}
+				for(int i = 0; i < resultArr.size(); i++) {
+					result += resultArr[i] + " ";
 				}
 				return result;
 			}
