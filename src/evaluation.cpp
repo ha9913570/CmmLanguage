@@ -23,8 +23,8 @@ void Evaluation::evaluationFunc(Node node) {
 // 変数の評価
 void Evaluation::evaluationVar(Node node) {
 	std::string value = calcExpression(node.node[2].value);
-	Var var(node.node[0].value, node.node[1].value, value);
-	vars.push_back(var);
+	Var tempVar(node.node[0].value, node.node[1].value, value);
+	vars.push_back(tempVar);
 }
 
 // 数式を計算し、その値を返す関数
