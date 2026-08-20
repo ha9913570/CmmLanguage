@@ -15,8 +15,8 @@ void Evaluation::evaluation(Node ast) {
 // 関数の評価
 void Evaluation::evaluationFunc(Node node) {
 	std::string func = node.node[0].value;
-	if(func == "print") {
-		fn.print(node, vars);
+	if(func == "prt") {
+		fn.prt(node, vars);
 	}
 }
 

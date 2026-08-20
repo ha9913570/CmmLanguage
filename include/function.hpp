@@ -10,7 +10,7 @@
 
 class Function {
 	public:
-		void print(Node node, std::vector<Var> vars);
+		void prt(Node node, std::vector<Var> vars);
 };
 
 #endif // FUNCTION
