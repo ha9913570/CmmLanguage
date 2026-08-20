@@ -6,6 +6,5 @@ C言語を拡張したものがC++、つまりC--はC言語からいろいろ引
 ## ビルド方法
 ```batch
 $ mkdir build
-$ cd build
 $ cmake --build build
 ```
