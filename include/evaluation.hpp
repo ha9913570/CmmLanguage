@@ -9,7 +9,7 @@
 #include "tokenize.hpp"
 #include "token.hpp"
 #include "var.hpp"
-#include "Node.hpp"
+#include "node.hpp"
 #include "function.hpp"
 
 class Evaluation {
