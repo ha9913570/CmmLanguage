@@ -2,8 +2,8 @@ int a = 20
 int b = 30
 int c = a + b
 int d = (a + b)^2/2
-print(a)
-print(b)
-print(c)
-print(d)
-print("Hello World!")
+prt(a)
+prt(b)
+prt(c)
+prt(d)
+prt("Hello World!")
