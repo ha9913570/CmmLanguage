@@ -1,3 +1,6 @@
+#include <stack>
+#include <stdexcept>
+
 #include "evaluation.hpp"
 
 // プログラムの評価

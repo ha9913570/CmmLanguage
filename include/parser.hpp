@@ -6,7 +6,6 @@
 
 #include "token.hpp"
 #include "tokenize.hpp"
-#include "var.hpp"
 #include "node.hpp"
 
 class Parser {

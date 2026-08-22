@@ -1,3 +1,6 @@
+#include <iostream>
+#include <string>
+
 #include "function.hpp"
 
 // 標準出力に値を表示する関数

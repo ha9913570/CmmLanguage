@@ -1,7 +1,7 @@
 #ifndef NODE
 #define NODE
 
-#include <iostream>
+#include <string>
 #include <vector>
 
 class Node {

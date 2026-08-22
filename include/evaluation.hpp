@@ -1,10 +1,8 @@
 #ifndef EVALUATION
 #define EVALUATION
 
-#include <iostream>
 #include <vector>
 #include <string>
-#include <stack>
 
 #include "tokenize.hpp"
 #include "token.hpp"
