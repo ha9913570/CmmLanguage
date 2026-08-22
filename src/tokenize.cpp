@@ -68,7 +68,7 @@ std::vector<Token> tokenize(std::string s) {
 			do {
 				value += s[i];
 				i++;
-			} while(isNumber(s[i]));
+			} while(isNumber(s[i]) || s[i] == '.');
 		} else if(s[i] == '"') {
 			do {
 				i++;

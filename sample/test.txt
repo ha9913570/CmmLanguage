@@ -2,8 +2,10 @@ int a = 20
 int b = 30
 int c = a + b
 int d = (a + b)^2/2
+int e = 1.1 + 2.2
 prt(a)
 prt(b)
 prt(c)
 prt(d)
+prt(e)
 prt("Hello World!")
