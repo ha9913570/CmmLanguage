@@ -6,7 +6,7 @@
 
 // プログラムの評価
 void Evaluation::evaluation(Node ast) {
-    int childNum = ast.node.size();
+    int childNum = (int)ast.node.size();
     for (int i = 0; i < childNum; i++) {
         if (ast.node[i].type == "call") {
             evaluationFunc(ast.node[i]);
