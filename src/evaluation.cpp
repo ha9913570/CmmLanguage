@@ -1,7 +1,7 @@
 #include <stack>
-#include <stdexcept>
 
 #include "evaluation.hpp"
+#include "rpn_tool.hpp"
 
 // プログラムの評価
 void Evaluation::evaluation(Node ast) {
@@ -56,90 +56,14 @@ std::string Evaluation::calcExpression(std::string ex) {
 			}
 		}
 
-		// 中置記法を逆ポーランド記法に変換する
-		std::string result = "";
-		std::vector<std::string> resultArr;
-		std::stack<std::string> opStack;
+		// 中置記法の数式を配列に格納
+		std::vector<std::string> infixNotationArray;
 		for(int i = 0; i < tokens.size() - 1; i++) {
-			if(tokens[i].tokenType != "symbol") {
-				resultArr.push_back(tokens[i].token);
-			} else {
-				if(tokens[i].token == "(") {
-					opStack.push(tokens[i].token);
-				} else if(tokens[i].token == ")") {
-					while(opStack.size() != 0 && opStack.top() != "(") {
-						resultArr.push_back(opStack.top());
-						opStack.pop();
-					}
-					opStack.pop();
-				} else if(tokens[i].token == "^") {
-					opStack.push(tokens[i].token);
-				} else if(tokens[i].token == "*" || tokens[i].token == "/") {
-					while(opStack.size() != 0 && opStack.top() != "(" && (opStack.top() == "^" || opStack.top() == "*" || opStack.top() == "/")) {
-						resultArr.push_back(opStack.top());
-						opStack.pop();
-					}
-					opStack.push(tokens[i].token);
-				} else if(tokens[i].token == "+" || tokens[i].token == "-") {
-					while(opStack.size() != 0 && opStack.top() != "(") {
-						resultArr.push_back(opStack.top());
-						opStack.pop();
-					}
-					opStack.push(tokens[i].token);
-				}
-			}
-		}
-		for(int i = 0; i < opStack.size(); i++) {
-			resultArr.push_back(opStack.top());
-			opStack.pop();
-		}
-		for(int i = 0; i < resultArr.size(); i++) {
-			result += resultArr[i] + " ";
+			infixNotationArray.push_back(tokens[i].token);
 		}
 
-		// 逆ポーランド記法を計算する
-		std::stack<int> numStack;
-		for(int i = 0; i < resultArr.size(); i++) {
-			try{
-				numStack.push(stoi(resultArr[i]));
-			} catch(const std::invalid_argument& e) {
-				if(resultArr[i] == "+") {
-					int b = numStack.top();
-					numStack.pop();
-					int a = numStack.top();
-					numStack.pop();
-					numStack.push(a + b);
-				} else if(resultArr[i] == "-") {
-					int b = numStack.top();
-					numStack.pop();
-					int a = numStack.top();
-					numStack.pop();
-					numStack.push(a - b);
-				} else if(resultArr[i] == "*") {
-					int b = numStack.top();
-					numStack.pop();
-					int a = numStack.top();
-					numStack.pop();
-					numStack.push(a * b);
-				} else if(resultArr[i] == "/") {
-					int b = numStack.top();
-					numStack.pop();
-					int a = numStack.top();
-					numStack.pop();
-					numStack.push(a / b);
-				} else if(resultArr[i] == "^") {
-					int b = numStack.top();
-					numStack.pop();
-					int a = numStack.top();
-					numStack.pop();
-					int temp = 1;
-					for(int j = 0; j < b; j++) {
-						temp *= a;
-					}
-					numStack.push(temp);
-				}
-			}
-		}
-		return std::to_string(numStack.top());
+		std::vector<std::string> rpnArray = InfixNotationToRPN(infixNotationArray);
+		
+		return calcRPN(rpnArray);
 	}
 }
