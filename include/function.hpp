@@ -3,12 +3,12 @@
 
 #include <vector>
 
-#include "var.hpp"
 #include "Node.hpp"
+#include "var.hpp"
 
 class Function {
-	public:
-		void prt(Node node, std::vector<Var> vars);
+public:
+    void prt(Node node, std::vector<Var> vars);
 };
 
-#endif // FUNCTION
+#endif  // FUNCTION

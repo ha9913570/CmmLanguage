@@ -8,4 +8,4 @@ bool isNumber(char c);
 bool isSpace(char c);
 std::vector<Token> tokenize(std::string s);
 
-#endif // TOKENIZE
+#endif  // TOKENIZE

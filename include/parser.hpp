@@ -4,21 +4,21 @@
 #include <string>
 #include <vector>
 
+#include "node.hpp"
 #include "token.hpp"
 #include "tokenize.hpp"
-#include "node.hpp"
 
 class Parser {
-	private:
-		Node rootNode;
+private:
+    Node rootNode;
 
-		bool isVarDeclaration(std::string token);
+    bool isVarDeclaration(std::string token);
 
-	public:
-		Node parseProgram(std::string program);
-		Node parseSentence(std::string sentence);
-		Node parseVarDeclaration(std::vector<Token> tokens);
-		Node parseCallSentence(std::vector<Token> tokens);
+public:
+    Node parseProgram(std::string program);
+    Node parseSentence(std::string sentence);
+    Node parseVarDeclaration(std::vector<Token> tokens);
+    Node parseCallSentence(std::vector<Token> tokens);
 };
 
-#endif // PARSER
+#endif  // PARSER

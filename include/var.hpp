@@ -4,14 +4,14 @@
 #include <string>
 
 class Var {
-	public:
-		std::string type;
-		std::string name;
-		std::string value;
+public:
+    std::string type;
+    std::string name;
+    std::string value;
 
-		Var();
-		Var(std::string t, std::string n, std::string v);
-		std::string toString();
+    Var();
+    Var(std::string t, std::string n, std::string v);
+    std::string toString();
 };
 
-#endif // VAR
+#endif  // VAR
