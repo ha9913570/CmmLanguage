@@ -1,6 +1,9 @@
 #ifndef TOKENIZE
 #define TOKENIZE
 
+#include <string>
+#include <vector>
+
 #include "token.hpp"
 
 bool isSymbol(char c);
