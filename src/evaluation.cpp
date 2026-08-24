@@ -2,6 +2,7 @@
 
 #include <stack>
 
+#include "function.hpp"
 #include "rpn_tool.hpp"
 
 // プログラムの評価
@@ -20,7 +21,7 @@ void Evaluation::evaluation(Node ast) {
 void Evaluation::evaluationFunc(Node node) {
     std::string func = node.node[0].value;
     if (func == "prt") {
-        fn.prt(node, vars);
+        cmm::prt(node, vars);
     }
 }
 

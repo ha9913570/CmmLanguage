@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "function.hpp"
 #include "node.hpp"
 #include "token.hpp"
 #include "tokenize.hpp"
@@ -16,7 +15,6 @@ public:
 
 private:
     std::vector<Var> vars;
-    Function fn;
 
     void evaluationFunc(Node node);
     void evaluationVar(Node node);

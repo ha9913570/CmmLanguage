@@ -6,9 +6,8 @@
 #include "Node.hpp"
 #include "var.hpp"
 
-class Function {
-public:
-    void prt(Node node, std::vector<Var> vars);
-};
+namespace cmm {
+void prt(Node node, std::vector<Var> vars);
+}
 
 #endif  // FUNCTION
