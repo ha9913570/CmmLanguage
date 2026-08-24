@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "node.hpp"
-#include "token.hpp"
 #include "tokenize.hpp"
 #include "var.hpp"
 

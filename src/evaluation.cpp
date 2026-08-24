@@ -35,11 +35,11 @@ void Evaluation::evaluationVar(Node node) {
 // 数式を計算し、その値を返す関数
 std::string Evaluation::calcExpression(std::string ex) {
     // 演算子があるかどうかによって数式かどうかを判定する
-    std::vector<Token> tokens = tokenize(ex);
+    std::vector<std::string> tokens = tokenize(ex);
     bool isExpression = false;
     std::string op = "+-*/^";
-    for (int i = 0; i < tokens.size() - 1; i++) {
-        if (op.find(tokens[i].token) != std::string::npos) {
+    for (int i = 0; i < tokens.size(); i++) {
+        if (op.find(tokens[i]) != std::string::npos) {
             isExpression = true;
             break;
         }
@@ -50,18 +50,18 @@ std::string Evaluation::calcExpression(std::string ex) {
         return ex;
     } else {
         // 変数を代入
-        for (int i = 0; i < tokens.size() - 1; i++) {
+        for (int i = 0; i < tokens.size(); i++) {
             for (int j = 0; j < vars.size(); j++) {
-                if (tokens[i].token == vars[j].name) {
-                    tokens[i].token = vars[j].value;
+                if (tokens[i] == vars[j].name) {
+                    tokens[i] = vars[j].value;
                 }
             }
         }
 
         // 中置記法の数式を配列に格納
         std::vector<std::string> infixNotationArray;
-        for (int i = 0; i < tokens.size() - 1; i++) {
-            infixNotationArray.push_back(tokens[i].token);
+        for (int i = 0; i < tokens.size(); i++) {
+            infixNotationArray.push_back(tokens[i]);
         }
 
         std::vector<std::string> rpnArray = InfixNotationToRPN(infixNotationArray);

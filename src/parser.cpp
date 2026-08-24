@@ -35,8 +35,8 @@ Node Parser::parseProgram(std::string program) {
 Node Parser::parseSentence(std::string sentence) {
     Node sentenceNode;
 
-    std::vector<Token> tokens = tokenize(sentence);
-    if (isVarDeclaration(tokens[0].token)) {
+    std::vector<std::string> tokens = tokenize(sentence);
+    if (isVarDeclaration(tokens[0])) {
         sentenceNode = parseVarDeclaration(tokens);
         sentenceNode.type = "var";
     } else {
@@ -49,15 +49,15 @@ Node Parser::parseSentence(std::string sentence) {
 }
 
 // 変数宣言の文をパースする関数
-Node Parser::parseVarDeclaration(std::vector<Token> tokens) {
+Node Parser::parseVarDeclaration(std::vector<std::string> tokens) {
     std::string value = "";
     for (int i = 3; i < tokens.size(); i++) {
-        value += tokens[i].token;
+        value += tokens[i];
     }
 
     Node mainNode;
-    Node typeNode("varType", tokens[0].token);
-    Node nameNode("varName", tokens[1].token);
+    Node typeNode("varType", tokens[0]);
+    Node nameNode("varName", tokens[1]);
     Node valueNode("varValue", value);
 
     mainNode.node.push_back(typeNode);
@@ -68,27 +68,27 @@ Node Parser::parseVarDeclaration(std::vector<Token> tokens) {
 }
 
 // 関数呼び出しの文をパースする関数
-Node Parser::parseCallSentence(std::vector<Token> tokens) {
+Node Parser::parseCallSentence(std::vector<std::string> tokens) {
     // 引数ノードを作成
     std::vector<Node> argNodes;
     std::string argValue = "";
     Node tempNode("arg", "");
-    for (int i = 2; tokens[i].token != ")"; i++) {
-        if (tokens[i].token == ",") {
+    for (int i = 2; tokens[i] != ")"; i++) {
+        if (tokens[i] == ",") {
             tempNode.value = argValue;
             argNodes.push_back(tempNode);
             argValue = "";
         } else {
-            argValue += tokens[i].token;
+            argValue += tokens[i];
         }
     }
     tempNode.value = argValue;
     argNodes.push_back(tempNode);
 
     Node mainNode;
-    Node callNode("function", tokens[0].token);
-    Node startNode("startArg", tokens[1].token);
-    Node endNode("endArg", tokens[tokens.size() - 2].token);
+    Node callNode("function", tokens[0]);
+    Node startNode("startArg", tokens[1]);
+    Node endNode("endArg", tokens[tokens.size() - 2]);
 
     mainNode.node.push_back(callNode);
     mainNode.node.push_back(startNode);

@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "node.hpp"
-#include "token.hpp"
 #include "tokenize.hpp"
 
 class Parser {
@@ -17,8 +16,8 @@ private:
 public:
     Node parseProgram(std::string program);
     Node parseSentence(std::string sentence);
-    Node parseVarDeclaration(std::vector<Token> tokens);
-    Node parseCallSentence(std::vector<Token> tokens);
+    Node parseVarDeclaration(std::vector<std::string> tokens);
+    Node parseCallSentence(std::vector<std::string> tokens);
 };
 
 #endif  // PARSER

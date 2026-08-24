@@ -1,10 +1,7 @@
 #include "tokenize.hpp"
 
-#include <iostream>
 #include <string>
 #include <vector>
-
-#include "token.hpp"
 
 // 文字が記号かどうかを判定し、記号ならTrueを返す関数
 bool isSymbol(char c) {
@@ -37,12 +34,10 @@ bool isSpace(char c) {
 }
 
 // 与えられた文字列をトークン列に変換する関数
-std::vector<Token> tokenize(std::string s) {
-    std::vector<Token> tokens;
+std::vector<std::string> tokenize(std::string s) {
+    std::vector<std::string> tokens;
     for (int i = 0; i < s.size();) {
-        Token token;
         std::string value = "";
-        std::string type = "string";
 
         // スペース、タブ、改行など
         if (isSpace(s[i])) {
@@ -55,17 +50,14 @@ std::vector<Token> tokenize(std::string s) {
         }
 
         if (s[i] == '\n') {
-            type = "end";
             value += s[i];
             i++;
         } else if (isSymbol(s[i])) {
-            type = "symbol";
             do {
                 value += s[i];
                 i++;
             } while (value.find(s[i]) != std::string::npos);
         } else if (isNumber(s[i])) {
-            type = "int";
             do {
                 value += s[i];
                 i++;
@@ -86,13 +78,8 @@ std::vector<Token> tokenize(std::string s) {
             } while (!isSymbol(s[i]) && !isNumber(s[i]) && !isSpace(s[i]) && s[i] != '\0');
         }
 
-        token.createToken(type, value);
-        tokens.push_back(token);
+        tokens.push_back(value);
     }
-
-    Token eofToken;
-    eofToken.createToken("eof", "\0");
-    tokens.push_back(eofToken);
 
     return tokens;
 }

@@ -6,7 +6,6 @@
 
 #include "evaluation.hpp"
 #include "parser.hpp"
-#include "token.hpp"
 #include "tokenize.hpp"
 
 int main(int argc, char* argv[]) {
