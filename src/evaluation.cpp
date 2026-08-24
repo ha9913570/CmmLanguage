@@ -2,6 +2,7 @@
 
 #include <stack>
 
+#include "error.hpp"
 #include "function.hpp"
 #include "rpn_tool.hpp"
 
@@ -22,6 +23,8 @@ void Evaluation::evaluationFunc(Node node) {
     std::string func = node.node[0].value;
     if (func == "prt") {
         cmm::prt(node, vars);
+    } else {
+        undefinedFunction(func);
     }
 }
 
