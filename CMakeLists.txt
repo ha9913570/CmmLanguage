@@ -1,5 +1,7 @@
 # ソースコードをUTF-8で読み込むようにする
-add_compile_options(/utf-8)
+add_compile_options(/source-charset:utf-8)
+# 実行ファイルはShift-JISを使用する
+add_compile_options(/execution-charset:.932)
 # CMakeの最低バージョンを指定
 cmake_minimum_required(VERSION 3.13)
 # プロジェクト名と使用する言語を指定
