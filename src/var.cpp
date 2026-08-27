@@ -11,7 +11,3 @@ Var::Var(std::string t, std::string n, std::string v) {
     name = n;
     value = v;
 }
-
-std::string Var::toString() {
-    return type + " " + name + ":" + value;
-}
