@@ -34,10 +34,9 @@ int main(int argc, char* argv[]) {
         str.pop_back();
     }
 
-    Parser parser;
     Evaluation evaluation;
 
-    Node ast = parser.parseProgram(str);
+    Node ast = parseProgram(str);
 
     evaluation.evaluation(ast);
 

@@ -1,7 +1,9 @@
 #include "parser.hpp"
 
+#include "tokenize.hpp"
+
 // 変数宣言の文かどうかを判定する関数
-bool Parser::isVarDeclaration(std::string token) {
+bool isVarDeclaration(std::string token) {
     bool result = false;
     if (token == "int") {
         result = true;
@@ -10,7 +12,7 @@ bool Parser::isVarDeclaration(std::string token) {
 }
 
 // プログラム全体をパースする関数
-Node Parser::parseProgram(std::string program) {
+Node parseProgram(std::string program) {
     std::vector<std::string> sentences;
     std::string temp = "";
     for (int i = 0; i < program.size(); i++) {
@@ -23,8 +25,7 @@ Node Parser::parseProgram(std::string program) {
     }
     sentences.push_back(temp);
 
-    rootNode.value = "root";
-    rootNode.type = "program";
+    Node rootNode("root", "program");
     for (int i = 0; i < sentences.size(); i++) {
         rootNode.node.push_back(parseSentence(sentences[i]));
     }
@@ -32,7 +33,7 @@ Node Parser::parseProgram(std::string program) {
 }
 
 // プログラム中の1文をパースする関数
-Node Parser::parseSentence(std::string sentence) {
+Node parseSentence(std::string sentence) {
     Node sentenceNode;
 
     std::vector<std::string> tokens = tokenize(sentence);
@@ -49,7 +50,7 @@ Node Parser::parseSentence(std::string sentence) {
 }
 
 // 変数宣言の文をパースする関数
-Node Parser::parseVarDeclaration(std::vector<std::string> tokens) {
+Node parseVarDeclaration(std::vector<std::string> tokens) {
     std::string value = "";
     for (int i = 3; i < tokens.size(); i++) {
         value += tokens[i];
@@ -68,7 +69,7 @@ Node Parser::parseVarDeclaration(std::vector<std::string> tokens) {
 }
 
 // 関数呼び出しの文をパースする関数
-Node Parser::parseCallSentence(std::vector<std::string> tokens) {
+Node parseCallSentence(std::vector<std::string> tokens) {
     // 引数ノードを作成
     std::vector<Node> argNodes;
     std::string argValue = "";
