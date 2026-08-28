@@ -17,7 +17,6 @@ private:
 
     void evaluationFunc(Node node);
     void evaluationVar(Node node);
-    std::string calcExpression(std::string ex);
 };
 
 #endif  // EVALUATION
