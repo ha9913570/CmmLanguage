@@ -37,6 +37,7 @@ int main(int argc, char* argv[]) {
     Evaluation evaluation;
 
     Node ast = parseProgram(str);
+    ast.printNode();
 
     evaluation.evaluation(ast);
 

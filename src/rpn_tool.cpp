@@ -55,47 +55,54 @@ std::vector<std::string> InfixNotationToRPN(
 }
 
 std::string calcRPN(std::vector<std::string> rpnArray) {
-    std::stack<int> numStack;
+    std::stack<double> numStack;
     for (int i = 0; i < rpnArray.size(); i++) {
         try {
-            numStack.push(stoi(rpnArray[i]));
+            numStack.push(stod(rpnArray[i]));
         } catch (const std::invalid_argument&) {
             if (rpnArray[i] == "+") {
-                int b = numStack.top();
+                double b = numStack.top();
                 numStack.pop();
-                int a = numStack.top();
+                double a = numStack.top();
                 numStack.pop();
                 numStack.push(a + b);
             } else if (rpnArray[i] == "-") {
-                int b = numStack.top();
+                double b = numStack.top();
                 numStack.pop();
-                int a = numStack.top();
+                double a = numStack.top();
                 numStack.pop();
                 numStack.push(a - b);
             } else if (rpnArray[i] == "*") {
-                int b = numStack.top();
+                double b = numStack.top();
                 numStack.pop();
-                int a = numStack.top();
+                double a = numStack.top();
                 numStack.pop();
                 numStack.push(a * b);
             } else if (rpnArray[i] == "/") {
-                int b = numStack.top();
+                double b = numStack.top();
                 numStack.pop();
-                int a = numStack.top();
+                double a = numStack.top();
                 numStack.pop();
                 numStack.push(a / b);
             } else if (rpnArray[i] == "^") {
-                int b = numStack.top();
+                double b = numStack.top();
                 numStack.pop();
-                int a = numStack.top();
+                double a = numStack.top();
                 numStack.pop();
-                int temp = 1;
-                for (int j = 0; j < b; j++) {
+                double temp = 1;
+                for (double j = 0; j < b; j++) {
                     temp *= a;
                 }
                 numStack.push(temp);
             }
         }
     }
-    return std::to_string(numStack.top());
+
+    // 小数点がすべて0ならその0を削除する
+    double result = numStack.top();
+    if (result - (int)result == 0) {
+        return std::to_string((int)result);
+    } else {
+        return std::to_string(result);
+    }
 }

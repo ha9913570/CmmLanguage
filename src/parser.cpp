@@ -5,7 +5,7 @@
 // 変数宣言の文かどうかを判定する関数
 bool isVarDeclaration(std::string token) {
     bool result = false;
-    if (token == "int") {
+    if (token == "int" || token == "dbl") {
         result = true;
     }
     return result;
@@ -54,6 +54,11 @@ Node parseVarDeclaration(std::vector<std::string> tokens) {
     std::string value = "";
     for (int i = 3; i < tokens.size(); i++) {
         value += tokens[i];
+    }
+
+    // int型で小数点が見つかったら切り捨てる
+    if (tokens[0] == "int" && value.find('.') != std::string::npos) {
+        value.erase(value.find('.'));
     }
 
     Node mainNode;
