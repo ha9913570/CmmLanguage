@@ -1,9 +1,9 @@
 prt("Hello World!")
 int a = 20
-int b = 30
+int b = 30.5
 int c = a + b
 int d = (a + b)^2/2
-int e = 1.1 + 2.2
+dbl e = 1.1 + 2.2
 prt("a:", a)
 prt("b:", b)
 prt("c:", c)
