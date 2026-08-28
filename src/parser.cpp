@@ -88,7 +88,7 @@ Node Parser::parseCallSentence(std::vector<std::string> tokens) {
     Node mainNode;
     Node callNode("function", tokens[0]);
     Node startNode("startArg", tokens[1]);
-    Node endNode("endArg", tokens[tokens.size() - 2]);
+    Node endNode("endArg", tokens[tokens.size() - 1]);
 
     mainNode.node.push_back(callNode);
     mainNode.node.push_back(startNode);

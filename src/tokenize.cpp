@@ -64,20 +64,17 @@ std::vector<std::string> tokenize(std::string s) {
             } while (isNumber(s[i]) || s[i] == '.');
         } else if (s[i] == '"') {
             do {
-                i++;
                 value += s[i];
-                if (s[i + 1] == '"') {
-                    i += 2;
-                    break;
-                }
-            } while (1);
+                i++;
+            } while (s[i] != '"');
+            value += '"';
+            i++;
         } else {
             do {
                 value += s[i];
                 i++;
             } while (!isSymbol(s[i]) && !isNumber(s[i]) && !isSpace(s[i]) && s[i] != '\0');
         }
-
         tokens.push_back(value);
     }
 

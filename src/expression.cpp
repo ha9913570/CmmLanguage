@@ -29,8 +29,11 @@ std::string calcExpression(std::string ex, std::vector<Var> vars) {
     if (!isExpression) {
         std::string result = "";
         for (int i = 0; i < tokens.size(); i++) {
+            // トークン中のリテラルを表すダブルクォーテーションを削除
+            if (tokens[i][0] == '"') {
+                tokens[i] = tokens[i].substr(1, tokens[i].size() - 2);
+            }
             result += tokens[i];
-            result += " ";
         }
         return result;
     } else {
