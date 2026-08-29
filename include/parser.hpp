@@ -11,5 +11,6 @@ Node parseProgram(std::string program);
 Node parseSentence(std::string sentence);
 Node parseVarDeclaration(std::vector<std::string> tokens);
 Node parseCallSentence(std::vector<std::string> tokens);
+int countIndent(std::vector<std::string> tokens);
 
 #endif  // PARSER

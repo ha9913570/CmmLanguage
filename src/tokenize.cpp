@@ -25,7 +25,7 @@ bool isNumber(char c) {
 
 // 文字がスペース類かどうかを判定し、スペースならTrueを返す関数
 bool isSpace(char c) {
-    std::string spaces = " \t\r";
+    std::string spaces = " \r";
     if (spaces.find(c) == std::string::npos) {
         return false;
     } else {
@@ -36,20 +36,37 @@ bool isSpace(char c) {
 // 与えられた文字列をトークン列に変換する関数
 std::vector<std::string> tokenize(std::string s) {
     std::vector<std::string> tokens;
+    int indentCount = 0;
     for (int i = 0; i < s.size();) {
         std::string value = "";
 
-        // スペース、タブ、改行など
-        if (isSpace(s[i])) {
-            i++;
-            continue;
-        }
         // ファイルの終端
         if (s[i] == '\0') {
             break;
         }
 
-        if (s[i] == '\n') {
+        if (s[i] == ' ' && s[i] == s[i + 1] && s[i] == s[i + 2] && s[i] == s[i + 3]) {
+            // 現在の行のタブの数を数える
+            int currentIndentCount = 0;
+            while (s[i] == ' ') {
+                currentIndentCount++;
+                i += 4;
+            }
+
+            if (indentCount < currentIndentCount) {
+                indentCount++;
+                value = "INDENT";
+            } else if (indentCount > currentIndentCount) {
+                while (indentCount == currentIndentCount) {
+                    indentCount--;
+                    tokens.push_back("DEDENT");
+                }
+                continue;
+            }
+        } else if (isSpace(s[i])) {
+            i++;
+            continue;
+        } else if (s[i] == '\n') {
             value += s[i];
             i++;
         } else if (isSymbol(s[i])) {

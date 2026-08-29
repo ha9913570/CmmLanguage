@@ -37,7 +37,10 @@ Node parseSentence(std::string sentence) {
     Node sentenceNode;
 
     std::vector<std::string> tokens = tokenize(sentence);
-    if (isVarDeclaration(tokens[0])) {
+
+    int indentCount = countIndent(tokens);
+
+    if (isVarDeclaration(tokens[0 + indentCount])) {
         sentenceNode = parseVarDeclaration(tokens);
         sentenceNode.type = "var";
     } else {
@@ -51,19 +54,21 @@ Node parseSentence(std::string sentence) {
 
 // 変数宣言の文をパースする関数
 Node parseVarDeclaration(std::vector<std::string> tokens) {
+    int indentCount = countIndent(tokens);
+
     std::string value = "";
-    for (int i = 3; i < tokens.size(); i++) {
+    for (int i = 3 + indentCount; i < tokens.size(); i++) {
         value += tokens[i];
     }
 
     // int型で小数点が見つかったら切り捨てる
-    if (tokens[0] == "int" && value.find('.') != std::string::npos) {
+    if (tokens[0 + indentCount] == "int" && value.find('.') != std::string::npos) {
         value.erase(value.find('.'));
     }
 
     Node mainNode;
-    Node typeNode("varType", tokens[0]);
-    Node nameNode("varName", tokens[1]);
+    Node typeNode("varType", tokens[0 + indentCount]);
+    Node nameNode("varName", tokens[1 + indentCount]);
     Node valueNode("varValue", value);
 
     mainNode.node.push_back(typeNode);
@@ -75,11 +80,13 @@ Node parseVarDeclaration(std::vector<std::string> tokens) {
 
 // 関数呼び出しの文をパースする関数
 Node parseCallSentence(std::vector<std::string> tokens) {
+    int indentCount = countIndent(tokens);
+
     // 引数ノードを作成
     std::vector<Node> argNodes;
     std::string argValue = "";
     Node tempNode("arg", "");
-    for (int i = 2; tokens[i] != ")"; i++) {
+    for (int i = 2 + indentCount; tokens[i] != ")"; i++) {
         if (tokens[i] == ",") {
             tempNode.value = argValue;
             argNodes.push_back(tempNode);
@@ -92,8 +99,8 @@ Node parseCallSentence(std::vector<std::string> tokens) {
     argNodes.push_back(tempNode);
 
     Node mainNode;
-    Node callNode("function", tokens[0]);
-    Node startNode("startArg", tokens[1]);
+    Node callNode("function", tokens[0 + indentCount]);
+    Node startNode("startArg", tokens[1 + indentCount]);
     Node endNode("endArg", tokens[tokens.size() - 1]);
 
     mainNode.node.push_back(callNode);
@@ -104,4 +111,17 @@ Node parseCallSentence(std::vector<std::string> tokens) {
     mainNode.node.push_back(endNode);
 
     return mainNode;
+}
+
+// トークン列に含まれるインデントの数を数える関数
+int countIndent(std::vector<std::string> tokens) {
+    int indentCount = 0;
+    for (int i = 0; i < tokens.size(); i++) {
+        if (tokens[i] == "INDENT") {
+            indentCount++;
+        } else {
+            break;
+        }
+    }
+    return indentCount;
 }
