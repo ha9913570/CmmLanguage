@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Node.hpp"
+#include "node.hpp"
 #include "var.hpp"
 
 namespace cmm {
